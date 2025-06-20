@@ -7,6 +7,13 @@ from kivymd.uix.dialog import MDDialog
 from pymongo import MongoClient
 
 class LoginApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Connect to MongoDB Atlas (replace <connection_string> with your actual connection string)
+        self.client = MongoClient("<connection_string>")
+        self.db = self.client["college_project"]  # Database name
+        self.collection = self.db["users"]       # Collection name
+
     def build(self):
         # Create the main screen
         screen = MDScreen()
@@ -48,12 +55,14 @@ class LoginApp(MDApp):
         return screen
 
     def validate_credentials(self, instance):
-        # Example credentials (replace with database or file validation)
         username = self.username.text
         password = self.password.text
 
-        if username == "admin" and password == "password123":
-            self.show_dialog("Login Successful", "Welcome!")
+        # Query MongoDB for the user
+        user = self.collection.find_one({"username": username, "password": password})
+
+        if user:
+            self.show_dialog("Login Successful", f"Welcome, {username}!")
         else:
             self.error_label.text = "Invalid username or password"
 

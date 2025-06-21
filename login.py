@@ -71,4 +71,4 @@ class LoginApp(MDApp):
         dialog.open()
 
 if __name__ == "__main__":
-    LoginApp().run()
+    LoginApp().run() 

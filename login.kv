@@ -1,0 +1,35 @@
+#:kivy 2.1.0
+
+# <LoginScreen>:
+    name: "login"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20dp"
+        padding: "50dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: 0.8, None
+        height: "400dp"
+
+        MDLabel:
+            text: "Login"
+            halign: "center"
+            font_style: "H4"
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            icon_right: "account"
+            required: True
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            icon_right: "lock"
+            password: True
+            required: True
+
+        MDRaisedButton:
+            text: "Login"
+            pos_hint: {"center_x": 0.5}
+            on_release: root.check_login()

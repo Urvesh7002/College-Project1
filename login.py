@@ -4,7 +4,6 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
 from kivymd.uix.dialog import MDDialog
-from pymongo import MongoClient
 
 class LoginApp(MDApp):
     def build(self):

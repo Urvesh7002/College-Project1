@@ -1,6 +1,10 @@
 #:kivy 2.1.0
 
-# <LoginScreen>:
+ScreenManager:
+    LoginScreen:
+    LocationCheckScreen:
+
+<LoginScreen@MDScreen>:
     name: "login"
 
     MDBoxLayout:
@@ -20,16 +24,39 @@
             id: username
             hint_text: "Username"
             icon_right: "account"
-            required: True
+            mode: "fill"                   # ✅ Makes the design look cleaner
+            text: ""                       # ✅ Prevents the bug
+            helper_text: ""                # ✅ No extra label
+            helper_text_mode: "persistent"
+
 
         MDTextField:
             id: password
             hint_text: "Password"
             icon_right: "lock"
             password: True
-            required: True
+            mode: "fill"
+            text: ""
+            helper_text: ""
+            helper_text_mode: "persistent"
+            
 
         MDRaisedButton:
             text: "Login"
             pos_hint: {"center_x": 0.5}
             on_release: root.check_login()
+
+<LocationCheckScreen@MDScreen>:
+    name: "location"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: "50dp"
+        spacing: "20dp"
+
+        MDLabel:
+            text: "Location Check Screen"
+            halign: "center"
+            font_style: "H5"
+
+

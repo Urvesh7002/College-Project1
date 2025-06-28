@@ -1,0 +1,113 @@
+#:kivy 2.1.0
+#:import utils kivy.utils
+
+ScreenManager:
+    LoginScreen:
+        name: "login"
+    LocationCheckScreen:
+        name: "location"
+    ScannerScreen:
+        name: "scanner"
+
+<LoginScreen>:
+    name: "login"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20dp"
+        padding: "50dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: 0.8, None
+        height: "400dp"
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex("#f5f5f5")  # Light background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        MDLabel:
+            text: "Student Login"
+            halign: "center"
+            font_style: "H4"
+            theme_text_color: "Primary"
+            bold: True
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            icon_right: "account"
+            mode: "fill"
+            text: ""
+            helper_text: ""
+            helper_text_mode: "persistent"
+            hint_text_color: 0, 0, 0, 1  # Black hint text
+            text_color: 0, 0, 0, 1  # Black input text
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            icon_right: "lock"
+            password: True
+            mode: "fill"
+            text: ""
+            helper_text: ""
+            helper_text_mode: "persistent"
+            hint_text_color: 0, 0, 0, 1
+            text_color: 0, 0, 0, 1
+
+        MDRaisedButton:
+            text: "LOGIN"
+            pos_hint: {"center_x": 0.5}
+            on_release: root.check_login()
+            md_bg_color: utils.get_color_from_hex("#1976d2")  # Blue color
+            text_color: 1, 1, 1, 1  # White text
+            size_hint_x: 0.7
+            font_size: "16sp"
+
+<LocationCheckScreen>:
+    name: "location"
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: "50dp"
+        spacing: "20dp"
+        
+        MDLabel:
+            text: "Checking Location..."
+            halign: "center"
+            font_style: "H5"
+            theme_text_color: "Primary"
+
+<ScannerScreen>:
+    name: "scanner"
+    
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1  # Black background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        Label:
+            text: "Scan School QR Code"
+            halign: 'center'
+            font_size: '20sp'
+            size_hint_y: 0.1
+            color: 1, 1, 1, 1  # White text
+            bold: True
+        
+        BoxLayout:
+            id: camera_view
+            size_hint_y: 0.8
+        
+        Button:
+            text: "CANCEL"
+            size_hint_y: 0.1
+            background_color: 0.9, 0.1, 0.1, 1  # Red background
+            color: 1, 1, 1, 1  # White text
+            font_size: "16sp"
+            bold: True
+            on_release: app.root.current = 'login'

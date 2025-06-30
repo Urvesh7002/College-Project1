@@ -18,21 +18,20 @@ class LocationCheckScreen(MDScreen):
         try:
             lat = kwargs['lat']
             lon = kwargs['lon']
-            school_lat, school_lon = app.school_location
+            college_lat, college_lon = app.school_location  # ✅ नाम बदल सकते हो app.college_location भी कर सकते हो
             
             # दूरी चेक करें
-            distance = ((lat - school_lat)**2 + (lon - school_lon)**2)**0.5
+            distance = ((lat - college_lat)**2 + (lon - college_lon)**2)**0.5
             
             if distance < 0.01:  # ~1km के अंदर
                 self.manager.current = "scanner"
             else:
-                self.show_dialog("गलत स्थान", "आप स्कूल में नहीं हैं!")
+                self.show_dialog("गलत स्थान", "आप कॉलेज में नहीं हैं!")  # ✅ बदला गया
                 mark_attendance("STU001", "Absent")
         except KeyError:
             pass
 
     def show_dialog(self, title, message):
-        # डायलॉग बंद करने और लॉगिन स्क्रीन पर जाने का फंक्शन
         def close_dialog_and_go_login(instance):
             dialog.dismiss()
             self.manager.current = "login"

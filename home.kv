@@ -1,0 +1,137 @@
+#:kivy 2.1.0
+#:import utils kivy.utils
+
+ScreenManager:
+    LoginScreen:
+        name: "login"
+    LocationCheckScreen:
+        name: "location"
+    ScannerScreen:
+        name: "scanner"
+    SignUpScreen:
+        name: "signup"
+
+<LoginScreen>:
+    name: "login"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20dp"
+        padding: "50dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: 0.8, None
+        height: "500dp"
+        canvas.before:
+            Color:
+                rgba: utils.get_color_from_hex("#f5f5f5")
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Image:
+            source: 'Geetanjali-College.png'
+            size_hint_y: None
+            height: "100dp"
+            allow_stretch: True
+            keep_ratio: True
+
+        MDLabel:
+            text: "College of Engineering"
+            halign: "center"
+            font_style: "Subtitle1"
+            theme_text_color: "Secondary"
+
+        MDLabel:
+            text: "Student Login"
+            halign: "center"
+            font_style: "H4"
+            theme_text_color: "Primary"
+            bold: True
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            icon_right: "account"
+            mode: "fill"
+            text_color: 0, 0, 0, 1
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            icon_right: "lock"
+            password: True
+            mode: "fill"
+            text_color: 0, 0, 0, 1
+
+        MDRaisedButton:
+            text: "LOGIN"
+            pos_hint: {"center_x": 0.5}
+            on_release: root.check_login()
+            md_bg_color: utils.get_color_from_hex("#1976d2")
+            text_color: 1, 1, 1, 1
+            size_hint_x: 0.7
+            font_size: "16sp"
+
+        # 🔴 Error label
+        MDLabel:
+            id: error_label
+            text: ""
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 1, 0, 0, 1
+            font_style: "Caption"
+
+        MDTextButton:
+            text: "Don't have an account? Sign Up"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.root.current = 'signup'
+            theme_text_color: "Custom"
+            text_color: utils.get_color_from_hex("#1976d2")
+
+
+<SignUpScreen>:
+    name: "signup"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "20dp"
+        padding: "50dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: 0.8, None
+        height: "500dp"
+
+        MDLabel:
+            text: "Create New Account"
+            halign: "center"
+            font_style: "H5"
+            theme_text_color: "Primary"
+
+        MDTextField:
+            id: signup_username
+            hint_text: "Username"
+            icon_right: "account"
+            mode: "fill"
+
+        MDTextField:
+            id: signup_password
+            hint_text: "Password"
+            password: True
+            icon_right: "lock"
+            mode: "fill"
+
+        MDTextField:
+            id: signup_name
+            hint_text: "Full Name"
+            icon_right: "account-circle"
+            mode: "fill"
+
+        MDRaisedButton:
+            text: "SIGN UP"
+            pos_hint: {"center_x": 0.5}
+            md_bg_color: utils.get_color_from_hex("#388e3c")
+            on_release: root.signup_user()
+
+        MDTextButton:
+            text: "Already have an account? Login"
+            pos_hint: {"center_x": 0.5}
+            on_release: app.root.current = 'login'

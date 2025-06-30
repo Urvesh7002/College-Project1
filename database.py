@@ -4,37 +4,48 @@ from datetime import datetime
 def init_db():
     conn = sqlite3.connect('attendance.db')
     c = conn.cursor()
-    
-    # टेबल्स बनाएँ
-    c.execute('''CREATE TABLE IF NOT EXISTS students (
-                 student_id TEXT PRIMARY KEY,
-                 name TEXT)''')
-    
+
+    # Users table
+    c.execute('''CREATE TABLE IF NOT EXISTS users (
+                    username TEXT PRIMARY KEY,
+                    password TEXT,
+                    name TEXT
+                )''')
+
+    # Attendance table
     c.execute('''CREATE TABLE IF NOT EXISTS attendance (
-                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 student_id TEXT,
-                 date TEXT,
-                 status TEXT,
-                 timestamp TEXT)''')
-    
-    # टेस्ट डेटा डालें
-    try:
-        c.execute("INSERT INTO students VALUES ('STU001', 'राहुल शर्मा')")
-    except:
-        pass
-    
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    student_id TEXT,
+                    date TEXT
+                )''')
+
     conn.commit()
     conn.close()
 
-def mark_attendance(student_id, status):
+def add_user(username, password, name):
     conn = sqlite3.connect('attendance.db')
     c = conn.cursor()
-    today = datetime.now().strftime("%Y-%m-%d")
-    timestamp = datetime.now().strftime("%H:%M:%S")
-    
-    c.execute('''INSERT INTO attendance (student_id, date, status, timestamp)
-                 VALUES (?, ?, ?, ?)''', 
-              (student_id, today, status, timestamp))
-    
+    try:
+        c.execute("INSERT INTO users (username, password, name) VALUES (?, ?, ?)", (username, password, name))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+    finally:
+        conn.close()
+
+def check_user_credentials(username, password):
+    conn = sqlite3.connect('attendance.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password))
+    result = c.fetchone()
+    conn.close()
+    return result is not None
+
+def mark_attendance(student_id):
+    conn = sqlite3.connect('attendance.db')
+    c = conn.cursor()
+    date = datetime.now().strftime("%Y-%m-%d")
+    c.execute("INSERT INTO attendance (student_id, date) VALUES (?, ?)", (student_id, date))
     conn.commit()
     conn.close()
